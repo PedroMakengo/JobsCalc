@@ -1,9 +1,11 @@
 const express = require("express");
 const server = express();
+const routes = require("./routes");
 
-// request, response
-server.get("/", (request, response) => {
-  return response.sendFile(__dirname + "/views/index.html");
-});
+// Habilitar arquivos statics
+server.use(express.static("public"));
+
+// routes
+server.use(routes);
 
 server.listen(3000, () => console.log("rodando"));
