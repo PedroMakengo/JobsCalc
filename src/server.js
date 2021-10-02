@@ -3,7 +3,7 @@ const server = express();
 
 // request, response
 server.get("/", (request, response) => {
-  return response.send("Oie!!!");
+  return response.sendFile(__dirname + "/views/index.html");
 });
 
 server.listen(3000, () => console.log("rodando"));
