@@ -19,6 +19,9 @@ const jobs = [
     "daily-hours": 2,
     "total-hours": 60,
     created_at: Date.now(),
+    budget: 4500,
+    remaining: 3,
+    status: "progress",
   },
   {
     id: 2,
@@ -26,11 +29,36 @@ const jobs = [
     "daily-hours": 3,
     "total-hours": 47,
     created_at: Date.now(),
+    budget: 45000,
+    remaining: 3,
+    status: "done",
   },
 ];
 
 // Criando as minhas rotas
-routes.get("/", (req, res) => res.render(views + "index", { jobs }));
+routes.get("/", (req, res) => {
+  const updatedJobs = jobs.map((job) => {
+    // ajustes no job
+    // calculo de tempo restante
+    const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed();
+
+    const createdDate = new Date(job.created_at);
+    const dueDay = createdDate.getDate() + Number(remainingDays);
+    // const dueDate = createdDate.setDate
+
+    return job;
+  });
+  res.render(views + "index", { jobs });
+});
+
+//
+//
+//
+//
+//
+//
+//
+
 routes.get("/job", (req, res) => res.render(views + "job"));
 routes.post("/job", (req, res) => {
   jobs.push(req.body);
