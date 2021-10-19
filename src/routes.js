@@ -12,19 +12,38 @@ const profile = {
   "vacation-per-year": 4,
 };
 
-const jobs = [];
+const jobs = [
+  {
+    id: 1,
+    name: "Pizzaria Guloso",
+    "daily-hours": 2,
+    "total-hours": 60,
+    created_at: Date.now(),
+  },
+  {
+    id: 2,
+    name: "OneTwo Project",
+    "daily-hours": 3,
+    "total-hours": 47,
+    created_at: Date.now(),
+  },
+];
 
 // Criando as minhas rotas
-routes.get("/", (req, res) => res.render(views + "index"));
+routes.get("/", (req, res) => res.render(views + "index", { jobs }));
 routes.get("/job", (req, res) => res.render(views + "job"));
 routes.post("/job", (req, res) => {
   jobs.push(req.body);
   // req.body = {name: 'asdf', 'daily-hours': '3.1', 'total-hours': '3'}
+  const lastId = jobs[jobs.length - 1]?.id || 1;
 
-  const job = req.body;
-  job.createdAt = Date.now(); // atribuindo uma nova data
-
-  jobs.push(job);
+  jobs.push({
+    id: lastId + 1,
+    name: req.body.name,
+    "daily-hours": req.body["daily-hours"],
+    "total-hours": req.body["total-hours"],
+    created_at: Date.now(), // atribuindo data de hoje
+  });
   return res.redirect("/");
 });
 routes.get("/job/edit", (req, res) => res.render(views + "job-edit"));
