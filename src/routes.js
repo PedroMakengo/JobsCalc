@@ -12,11 +12,20 @@ const profile = {
   "vacation-per-year": 4,
 };
 
+const jobs = [];
+
 // Criando as minhas rotas
 routes.get("/", (req, res) => res.render(views + "index"));
 routes.get("/job", (req, res) => res.render(views + "job"));
 routes.post("/job", (req, res) => {
-  console.log(req.body);
+  jobs.push(req.body);
+  // req.body = {name: 'asdf', 'daily-hours': '3.1', 'total-hours': '3'}
+
+  const job = req.body;
+  job.createdAt = Date.now(); // atribuindo uma nova data
+
+  jobs.push(job);
+  return res.redirect("/");
 });
 routes.get("/job/edit", (req, res) => res.render(views + "job-edit"));
 routes.get("/profile", (req, res) =>
