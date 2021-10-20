@@ -10,6 +10,7 @@ const profile = {
   "days-per-week": 5,
   "hours-per-day": 5,
   "vacation-per-year": 4,
+  "value-hour": 75,
 };
 
 const jobs = [
@@ -17,7 +18,7 @@ const jobs = [
     id: 1,
     name: "Pizzaria Guloso",
     "daily-hours": 2,
-    "total-hours": 60,
+    "total-hours": 1,
     created_at: Date.now(),
   },
   {
@@ -26,7 +27,6 @@ const jobs = [
     "daily-hours": 3,
     "total-hours": 47,
     created_at: Date.now(),
-    budget: 45000,
   },
 ];
 
@@ -58,22 +58,14 @@ routes.get("/", (req, res) => {
       ...job,
       remaining,
       status,
+      budget: profile["value-hour"] * job["total-hours"],
     };
   });
-  res.render(views + "index", { jobs });
+  res.render(views + "index", { jobs: updatedJobs });
 });
-
-//
-//
-//
-//
-//
-//
-//
 
 routes.get("/job", (req, res) => res.render(views + "job"));
 routes.post("/job", (req, res) => {
-  jobs.push(req.body);
   // req.body = {name: 'asdf', 'daily-hours': '3.1', 'total-hours': '3'}
   const lastId = jobs[jobs.length - 1]?.id || 1;
 
