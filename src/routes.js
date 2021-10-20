@@ -129,6 +129,14 @@ const Job = {
         "total-hours": req.body["total-hours"],
         "daily-hours": req.body["daily-hours"],
       };
+
+      Job.data = Job.data.map((job) => {
+        if (Number(job.id) === Number(jobId)) {
+          job = updateJob;
+        }
+        return job;
+      });
+      res.redirect("/job/" + jobId);
     },
   },
 
