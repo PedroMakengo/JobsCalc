@@ -19,9 +19,6 @@ const jobs = [
     "daily-hours": 2,
     "total-hours": 60,
     created_at: Date.now(),
-    budget: 4500,
-    remaining: 3,
-    status: "progress",
   },
   {
     id: 2,
@@ -30,23 +27,38 @@ const jobs = [
     "total-hours": 47,
     created_at: Date.now(),
     budget: 45000,
-    remaining: 3,
-    status: "done",
   },
 ];
+
+function remainingDays(job) {
+  // calculo de tempo restante
+  const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed();
+
+  const createdDate = new Date(job.created_at);
+  const dueDay = createdDate.getDate() + Number(remainingDays);
+  const dueDateInMs = createdDate.setDate(dueDay);
+
+  const timeDiffInMs = dueDateInMs - Date.now();
+  // transformar milli em dias
+  const dayInMs = 1000 * 60 * 60 * 24;
+  const dayDiff = Math.floor(timeDiffInMs / dayInMs);
+
+  // restam x dias
+  return dayDiff;
+}
 
 // Criando as minhas rotas
 routes.get("/", (req, res) => {
   const updatedJobs = jobs.map((job) => {
     // ajustes no job
-    // calculo de tempo restante
-    const remainingDays = (job["total-hours"] / job["daily-hours"]).toFixed();
+    const remaining = remainingDays(job);
+    const status = remaining <= 0 ? "done" : "progress";
 
-    const createdDate = new Date(job.created_at);
-    const dueDay = createdDate.getDate() + Number(remainingDays);
-    // const dueDate = createdDate.setDate
-
-    return job;
+    return {
+      ...job,
+      remaining,
+      status,
+    };
   });
   res.render(views + "index", { jobs });
 });
