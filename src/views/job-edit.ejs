@@ -23,7 +23,7 @@
       rel="stylesheet"
     />
 
-    <script type="module" src="./scripts/job-edit.js"></script>
+    <script type="module" src="/scripts/job-edit.js"></script>
   </head>
   <body id="page-job-edit">
     <%- include("parts/page-header", {title: "Editar job"}) %>
@@ -109,7 +109,11 @@
           </button>
         </footer>
       </div>
-      <form method="post" action="/job/delete/{JOBID}" id="delete-job"></form>
+      <form
+        method="post"
+        action="/job/delete/<%= job.id %> "
+        id="delete-job"
+      ></form>
     </div>
     <!-- end modal-wrapper -->
   </body>
