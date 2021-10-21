@@ -88,7 +88,7 @@ const Job = {
       return res.render(views + "job");
     },
     save(req, res) {
-      const lastId = Job.data[Job.data.length - 1]?.id || 1;
+      const lastId = Job.data[Job.data.length - 1]?.id || 0;
       Job.data.push({
         id: lastId + 1,
         name: req.body.name,
@@ -141,7 +141,7 @@ const Job = {
     delete(req, res) {
       const jobId = req.params.id;
 
-      Job.data.filter((job) => Number(job.id) !== Number(jobId));
+      Job.data = Job.data.filter((job) => Number(job.id) !== Number(jobId));
 
       return res.redirect("/");
     },
