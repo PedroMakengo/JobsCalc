@@ -138,7 +138,13 @@ const Job = {
       });
       res.redirect("/job/" + jobId);
     },
-    delete(req, res) {},
+    delete(req, res) {
+      const jobId = req.params.id;
+
+      Job.data.filter((job) => Number(job.id) !== Number(jobId));
+
+      return res.redirect("/");
+    },
   },
 
   services: {
